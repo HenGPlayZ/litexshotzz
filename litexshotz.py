@@ -6,6 +6,9 @@ from urllib import parse, request
 import re
 
 bot = commands.Bot(command_prefix='>', description="This is a Helper Bot")
+@client.event
+async def on_ready():
+    await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game ('litexshot'))
 
 @bot.command()
 async def ping(ctx):
@@ -50,10 +53,6 @@ async def on_message(message):
         # in this case don't respond with the word "Tutorial" or you will call the on_message event recursively
         await message.channel.send('This is that you want http://youtube.com/fazttech')
         await bot.process_commands(message)
-
-@client.event
-async def on_ready():
-    await client.change_presence(status=discord.Status.do_not_disturb, activity=discord.Game ('litexshot'))
 
 client.run('NNzg5MDI5OTAwMzQ1NTQwNjQ5.X9sHWw.qbk63kOJWAeucH_rOFaUG81be9c')
 bot.run('token')
