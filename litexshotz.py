@@ -3,17 +3,57 @@ from discord.ext import commands
 
 client = commands.Bot(command_prefix = '.') 
 
-@client.event
+import discord
+from discord.ext import commands
+import datetime
+
+from urllib import parse, request
+import re
+
+bot = commands.Bot(command_prefix='>', description="This is a Helper Bot")
+
+@bot.command()
+async def ping(ctx):
+    await ctx.send('pong')
+
+@bot.command()
+async def sum(ctx, numOne: int, numTwo: int):
+    await ctx.send(numOne + numTwo)
+
+@bot.command()
+async def info(ctx):
+    embed = discord.Embed(title=f"{ctx.guild.name}", description="Lorem Ipsum asdasd", timestamp=datetime.datetime.utcnow(), color=discord.Color.blue())
+    embed.add_field(name="Server created at", value=f"{ctx.guild.created_at}")
+    embed.add_field(name="Server Owner", value=f"{ctx.guild.owner}")
+    embed.add_field(name="Server Region", value=f"{ctx.guild.region}")
+    embed.add_field(name="Server ID", value=f"{ctx.guild.id}")
+    # embed.set_thumbnail(url=f"{ctx.guild.icon}")
+    embed.set_thumbnail(url="https://pluralsight.imgix.net/paths/python-7be70baaac.png")
+
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def youtube(ctx, *, search):
+    query_string = parse.urlencode({'search_query': search})
+    html_content = request.urlopen('http://www.youtube.com/results?' + query_string)
+    # print(html_content.read().decode())
+    search_results = re.findall('href=\"\\/watch\\?v=(.{11})', html_content.read().decode())
+    print(search_results)
+    # I will put just the first result, you can loop the response to show more results
+    await ctx.send('https://www.youtube.com/watch?v=' + search_results[0])
+
+# Events
+@bot.event
 async def on_ready():
-          await client.change_presence(status=discord.Status.online, activity=discord.Game("pornhub.com')) print('Bot Ready")
+    await client.change_presence(status=discord.status.online, activity=discord.Game ('litexshot.org'))
+    print('Bot is ready.')
 
-@client.event
+
+@bot.listen()
 async def on_message(message):
-    if message.author == client.user:
-        return
-    if message.content.startswith("%hello"):
-        await message.channel.send("Hey there buddy!")
-        
-client.run(os.getenv('TOKEN'))
-
-client.run('6bb71b4165493ed5a3344b3f3ec0312debfe709fcf88b34dfd276433ebdbe716')
+    if "tutorial" in message.content.lower():
+        # in this case don't respond with the word "Tutorial" or you will call the on_message event recursively
+        await message.channel.send('This is that you want http://youtube.com/fazttech')
+        await bot.process_commands(message)
+client.run('Nzg5MDI5OTAwMzQ1NTQwNjQ5.X9sHWw.reFmFZBcUk_uLA5HfGl19ONM33A')
+bot.run('token')
