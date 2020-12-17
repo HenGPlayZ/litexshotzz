@@ -55,5 +55,5 @@ async def on_message(message):
         # in this case don't respond with the word "Tutorial" or you will call the on_message event recursively
         await message.channel.send('This is that you want http://youtube.com/fazttech')
         await bot.process_commands(message)
-client.run('Nzg5MDI5OTAwMzQ1NTQwNjQ5.X9sHWw.reFmFZBcUk_uLA5HfGl19ONM33A')
+client.run('Nzg5MDI5OTAwMzQ1NTQwNjQ5.X9sHWw.UC8MOxZtIIfzWITnLBvqN9hZFgA')
 bot.run('token')
